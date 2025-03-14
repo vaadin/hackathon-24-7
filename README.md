@@ -5,8 +5,11 @@
   * Works fine, exception message about having to use `setItemIndexProvider(..)` was helpful.
 * Tested new spacing API (`layout.setSpacing("50px")` for example) on Vertical layout 
   * Works nicely.
-* Tested new HorizontalLayout slot API (`layout.addToStart(..)`, `layout.addToMiddle(..)`, `layout.addToEnd()`)
-  * Works nicely  
+* Tested new HorizontalLayout slot API (`layout.addToStart(..)`, `layout.addToMiddle(..)`, `layout.addToEnd(..)`)
+  * Works nicely
+* While testing multi-select Grid, with a frozen first column, the checkboxes get scrolled away. 
+  * There should be an option to have them frozen as well.  
+  * Would be nice to have `freezeToStart(..)` API
 
 ## Running the application
 
