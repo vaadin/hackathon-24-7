@@ -4,6 +4,12 @@ Repository for the 24.7 hackathon
 
 # Mr Hack by Krisjanis Seglins
 
+Played around with Dashboard component. 
+Tried Vaadin Copilot and Tried Codium Windsurf. 
+Tried new Horizontal layout stuff and Card. 
+Didn't find any bugs in the app.
+
+
 ## rules
 Hackathon Rules
 
