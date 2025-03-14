@@ -34,3 +34,7 @@ index caddd51fe..96dfbbf27 100644
 - Some file handling on the server to store the upload temporarily and confirm on form submission.
 - Update the hidden field that holds the uploaded file id, without submitting.
 - A checkbox to mark current file for deletion.
+
+### Issues
+
+Opened [#3349](https://github.com/vaadin/hilla/issues/3349).
