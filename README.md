@@ -1,13 +1,36 @@
-# hackathon-24-7
+## Attempt to integrate upload and download in AutoCRUD
 
-Repository for the 24.7 hackathon
+Download works fine.
 
-## rules
-Hackathon Rules
+Upload somewhat works, but I had to patch `autoform-field.tsx` to access the form:
 
-1. Versions: Use Platform `24.7.0.rc1` (or the latest version) 
-2. Choose your project: You can work on an app, fixes, migrations, new features, docs, addons, DS, or just reporting issues.
-3. Deadline: Upload your work to the [GitHub Repository](https://github.com/vaadin/hackathon-24-7) by Monday
-4. Contribution options: If you don’t have any code to show, please add a README or screenshots demoing your work.
-5. Communication: Use Slack channel #hackathon-24-7 for discussions.
-6. Documentation: Refer to vaadin.com/docs/latest for help and information.
+```diff
+diff --git a/packages/ts/react-crud/src/autoform-field.tsx b/packages/ts/react-crud/src/autoform-field.tsx
+index caddd51fe..96dfbbf27 100644
+--- a/packages/ts/react-crud/src/autoform-field.tsx
++++ b/packages/ts/react-crud/src/autoform-field.tsx
+@@ -126,7 +126,7 @@ export type FieldOptions = Readonly<{
+    * }
+    * ```
+    */
+-  renderer?(props: { field: CustomFormFieldProps }): JSX.Element;
++  renderer?(props: { field: CustomFormFieldProps; form: UseFormResult<AbstractModel> }): JSX.Element;
+   /**
+    * Validators to apply to the field. The validators are added to the form
+    * when the field is rendered.
+@@ -223,7 +223,7 @@ export function AutoFormField(props: AutoFormFieldProps): JSX.Element | null {
+ 
+   if (options.renderer) {
+     const customFieldProps = { ...field, disabled: props.disabled, label };
+-    return options.renderer({ field: customFieldProps });
++    return options.renderer({ field: customFieldProps, form: form as UseFormResult<AbstractModel> });
+   }
+ 
+   const fieldProps: CommonFieldProps = {
+```
+
+### What's needed:
+
+- Some file handling on the server to store the upload temporarily and confirm on form submission.
+- Update the hidden field that holds the uploaded file id, without submitting.
+- A checkbox to mark current file for deletion.
