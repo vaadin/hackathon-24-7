@@ -10,6 +10,11 @@
 * While testing multi-select Grid, with a frozen first column, the checkboxes get scrolled away. 
   * There should be an option to have them frozen as well.  
   * Would be nice to have `freezeToStart(..)` API
+* Tested the optional pointer focus ring. 
+  * Worked well on almost all fields. 
+  * Doesn't work on rich text editor.
+* While testing rich text editor, noticed it doesn't have a border at the bottom.
+  * Can only replicate it on one page, not sure what's the reason
 
 ## Running the application
 

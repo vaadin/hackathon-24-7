@@ -1,2 +1,6 @@
 @import url('./main-layout.css');
 @import url('./views/master-detail-view.css');
+
+* {
+    --lumo-input-field-pointer-focus-visible: 1;
+}
