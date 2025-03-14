@@ -2,6 +2,8 @@
 
 Repository for the 24.7 hackathon
 
+# Mr Hack by Krisjanis Seglins
+
 ## rules
 Hackathon Rules
 
