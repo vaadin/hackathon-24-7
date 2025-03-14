@@ -38,3 +38,7 @@ index caddd51fe..96dfbbf27 100644
 ### Issues
 
 Opened [#3349](https://github.com/vaadin/hilla/issues/3349).
+
+### Screenshot
+
+![Screenshot](./screenshot.png)
