@@ -6,7 +6,7 @@
 * Tested new spacing API (`layout.setSpacing("50px")` for example) on Vertical layout 
   * Works nicely.
 * Tested new HorizontalLayout slot API (`layout.addToStart(..)`, `layout.addToMiddle(..)`, `layout.addToEnd(..)`)
-  * Works nicely
+  * Works nicely.
 * While testing multi-select Grid, with a frozen first column, the checkboxes get scrolled away. 
   * There should be an option to have them frozen as well.  
   * Would be nice to have `freezeToStart(..)` API
@@ -14,7 +14,12 @@
   * Worked well on almost all fields. 
   * Doesn't work on rich text editor.
 * While testing rich text editor, noticed it doesn't have a border at the bottom.
-  * Can only replicate it on one page, not sure what's the reason
+  * Can only replicate in some conditions where there is overflow of component under it. 
+  * Reported here https://github.com/vaadin/flow-components/issues/7210
+* Tested the newly supported min-rows = 1 on TextArea.
+  * Worked nicely. 
+* Tested the new `accessibleDisabledButtons` feature.
+  * Worked nicely.
 
 ## Running the application
 

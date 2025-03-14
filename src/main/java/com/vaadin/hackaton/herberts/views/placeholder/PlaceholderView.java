@@ -32,20 +32,7 @@ public class PlaceholderView extends VerticalLayout {
 
     public PlaceholderView() {
         setSpacing(false);
-
-        Image img = new Image("images/empty-plant.png", "placeholder plant");
-        img.setWidth("200px");
-        add(img);
-
-        H2 header = new H2("This place intentionally left empty");
-        header.addClassNames(Margin.Top.XLARGE, Margin.Bottom.MEDIUM);
-        add(header);
-        add(new Paragraph("It’s a place where you can grow your own UI 🤗"));
-
         setSizeFull();
-        setJustifyContentMode(JustifyContentMode.CENTER);
-        setDefaultHorizontalComponentAlignment(Alignment.CENTER);
-        getStyle().set("text-align", "center");
 
         MessageInput messageInput = new MessageInput();
         messageInput.addSubmitListener(submitEvent -> {
@@ -60,11 +47,25 @@ public class PlaceholderView extends VerticalLayout {
         richTextCustomField.getStyle().setPaddingBottom("20px");
 
         var richTextEditor = new RichTextEditor();
-        richTextEditor.getStyle().setPaddingBottom("20px").setMarginBottom("20px");
 
+        var textArea1 = new TextArea("Text Area 1");
+        textArea1.setMinRows(1);
+        var textArea2 = new TextArea("Text Area 2");
+        textArea2.setMinRows(2);
+
+        var regularButton = new Button("Regular Button");
+        regularButton.setTooltipText("This is always enabled");
+
+        var disabledButton = new Button("Disabled Button");
+        disabledButton.setTooltipText("This is disabled for a reason;");
+        disabledButton.setEnabled(false);
+        disabledButton.addClickListener(event -> Notification.show("Disabled click"));
+
+        add(regularButton, disabledButton);
 
         add(new TextField("Text field"),
-                new TextArea("Text Area"),
+                textArea1,
+                textArea2,
                 new EmailField("Email field"),
                 new NumberField("Number field"),
                 new PasswordField("Password field"),
@@ -80,10 +81,7 @@ public class PlaceholderView extends VerticalLayout {
                 richTextEditor,
                 new MyCustomField("My custom field"),
                 richTextCustomField
-
         );
-
-
     }
 
     public static class MyCustomField extends CustomField<String> {
