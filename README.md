@@ -2,6 +2,11 @@
 
 ### Things done:
 * Tested Grid multi-select range with AbstractBackEndDataProvider.
+  * Works fine, exception message about having to use `setItemIndexProvider(..)` was helpful.
+* Tested new spacing API (`layout.setSpacing("50px")` for example) on Vertical layout 
+  * Works nicely.
+* Tested new HorizontalLayout slot API (`layout.addToStart(..)`, `layout.addToMiddle(..)`, `layout.addToEnd()`)
+  * Works nicely  
 
 ## Running the application
 

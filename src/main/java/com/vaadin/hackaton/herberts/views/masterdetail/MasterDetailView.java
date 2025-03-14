@@ -19,6 +19,7 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.Notification.Position;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.splitlayout.SplitLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
@@ -39,22 +40,16 @@ import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.vaadin.lineawesome.LineAwesomeIconUrl;
 
 @PageTitle("Master-Detail")
-@Route("master-detail/:samplePersonID?/:action?(edit)")
+@Route("master-detail")
 @Menu(order = 1, icon = LineAwesomeIconUrl.COLUMNS_SOLID)
 @RolesAllowed("ADMIN")
 @Uses(Icon.class)
 public class MasterDetailView extends Div implements BeforeEnterObserver {
 
     private final String SAMPLEPERSON_ID = "samplePersonID";
-    private final String SAMPLEPERSON_EDIT_ROUTE_TEMPLATE = "master-detail/%s/edit";
 
     private final Grid<SamplePerson> grid;
 
-    private TextField firstName;
-    private TextField lastName;
-    private TextField email;
-    private TextField phone;
-    private DatePicker dateOfBirth;
     private TextField occupation;
     private TextField role;
     private Checkbox important;
@@ -97,26 +92,7 @@ public class MasterDetailView extends Div implements BeforeEnterObserver {
             refreshGrid();
         });
 
-        save.addClickListener(e -> {
-            try {
-                if (this.samplePerson == null) {
-                    this.samplePerson = new SamplePerson();
-                }
-                binder.writeBean(this.samplePerson);
-                samplePersonService.save(this.samplePerson);
-                clearForm();
-                refreshGrid();
-                Notification.show("Data updated");
-                UI.getCurrent().navigate(MasterDetailView.class);
-            } catch (ObjectOptimisticLockingFailureException exception) {
-                Notification n = Notification.show(
-                        "Error updating the data. Somebody else has updated the record while you were making changes.");
-                n.setPosition(Position.MIDDLE);
-                n.addThemeVariants(NotificationVariant.LUMO_ERROR);
-            } catch (ValidationException validationException) {
-                Notification.show("Failed to update the data. Check again that all values are valid");
-            }
-        });
+        save.addClickListener(e -> onSave());
     }
 
     @Override
@@ -167,14 +143,14 @@ public class MasterDetailView extends Div implements BeforeEnterObserver {
         addRangeSelectionSupport(gridSelection);
 
         // when a row is selected or deselected, populate form
-        /*grid.asSingleSelect().addValueChangeListener(event -> {
+        grid.asMultiSelect().addValueChangeListener(event -> {
             if (event.getValue() != null) {
-                UI.getCurrent().navigate(String.format(SAMPLEPERSON_EDIT_ROUTE_TEMPLATE, event.getValue().getId()));
+                // TODO UI.getCurrent().navigate(String.format(SAMPLEPERSON_EDIT_ROUTE_TEMPLATE, event.getValue().getId()));
             } else {
                 clearForm();
                 UI.getCurrent().navigate(MasterDetailView.class);
             }
-        });*/
+        });
         return grid;
     }
 
@@ -220,18 +196,17 @@ public class MasterDetailView extends Div implements BeforeEnterObserver {
         editorDiv.setClassName("editor");
         editorLayoutDiv.add(editorDiv);
 
-        FormLayout formLayout = new FormLayout();
-        firstName = new TextField("First Name");
-        lastName = new TextField("Last Name");
-        email = new TextField("Email");
-        phone = new TextField("Phone");
-        dateOfBirth = new DatePicker("Date Of Birth");
+        var layout = new VerticalLayout();
+        layout.setPadding(false);
+        layout.setSpacing("20px");
+
         occupation = new TextField("Occupation");
         role = new TextField("Role");
         important = new Checkbox("Important");
-        formLayout.add(firstName, lastName, email, phone, dateOfBirth, occupation, role, important);
 
-        editorDiv.add(formLayout);
+        layout.add(occupation, role, important);
+
+        editorDiv.add(layout);
         createButtonLayout(editorLayoutDiv);
 
         splitLayout.addToSecondary(editorLayoutDiv);
@@ -239,10 +214,12 @@ public class MasterDetailView extends Div implements BeforeEnterObserver {
 
     private void createButtonLayout(Div editorLayoutDiv) {
         HorizontalLayout buttonLayout = new HorizontalLayout();
+        buttonLayout.setWidth("100%");
         buttonLayout.setClassName("button-layout");
         cancel.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        buttonLayout.add(save, cancel);
+        buttonLayout.addToStart(save);
+        buttonLayout.addToEnd(cancel);
         editorLayoutDiv.add(buttonLayout);
     }
 
@@ -266,5 +243,28 @@ public class MasterDetailView extends Div implements BeforeEnterObserver {
         this.samplePerson = value;
         binder.readBean(this.samplePerson);
 
+    }
+
+    private void onSave() {
+        {
+            try {
+                if (this.samplePerson == null) {
+                    this.samplePerson = new SamplePerson();
+                }
+                binder.writeBean(this.samplePerson);
+                samplePersonService.save(this.samplePerson);
+                clearForm();
+                refreshGrid();
+                Notification.show("Data updated");
+                UI.getCurrent().navigate(MasterDetailView.class);
+            } catch (ObjectOptimisticLockingFailureException exception) {
+                Notification n = Notification.show(
+                        "Error updating the data. Somebody else has updated the record while you were making changes.");
+                n.setPosition(Position.MIDDLE);
+                n.addThemeVariants(NotificationVariant.LUMO_ERROR);
+            } catch (ValidationException validationException) {
+                Notification.show("Failed to update the data. Check again that all values are valid");
+            }
+        }
     }
 }
