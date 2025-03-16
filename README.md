@@ -34,6 +34,7 @@ index caddd51fe..96dfbbf27 100644
 - Some file handling on the server to store the upload temporarily and confirm on form submission.
 - Update the hidden field that holds the uploaded file id, without submitting.
 - A checkbox to mark current file for deletion.
+- An easy way to add a label to the upload field
 
 ### Issues
 
